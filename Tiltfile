@@ -1,6 +1,11 @@
 # Load the restart_process extension
 load('ext://restart_process', 'docker_build_with_restart')
 
+### Docker ###
+
+docker_prune_settings(num_builds=5, max_age_mins=60, keep_recent=2)
+
+### End of Docker ###
 ### K8s Config ###
 
 # Uncomment to use secrets
@@ -76,6 +81,7 @@ docker_build(
   'micro-ride/web',
   '.',
   dockerfile='./infra/development/docker/web.Dockerfile',
+  only=['./web'],
 )
 
 k8s_yaml('./infra/development/k8s/web-deployment.yaml')
